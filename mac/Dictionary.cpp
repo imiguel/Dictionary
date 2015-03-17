@@ -13,24 +13,24 @@
 Structs zone
 */
 struct Words{
-	char lituanWord[MAX_WORD_SIZE];
+	char lithuanWord[MAX_WORD_SIZE];
 	char englishWord[MAX_WORD_SIZE];
-}
+};
 
 
 /*
 Functions zone
 */
-void insertWords(){
-	struct Words *insertedWord;
+void insertWords(struct Words *insertedWord){
+	
 	
 	printf("\nInsert Lithuan word (original): ");
-	scanf("%s", insertedWord->lituanWord);
+	scanf("%s", insertedWord->lithuanWord);
 	printf("\nInsert english word (translated): ");
 	scanf("%s", insertedWord->englishWord);
 	
-	prinf("\n\nlithuan: %s", insertedWords->lithuanWord);
-}
+	prinf("\n\nlithuan: %s", insertedWord->lithuanWord);
+};
 
 
 
