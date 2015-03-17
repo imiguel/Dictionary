@@ -23,34 +23,38 @@ struct Word{
 /*
 Functions zone
 */
-void insertWord(struct Word *word){
-	FILE *fEnglish, *fLithuan;
+void insertWordLithuan(struct Word *word){
+	FILE *fLithuan;
 
-	//open the files in append mode. If file doesn't exist, create it
-	fLithuan = fopen("..\\Debug\\data\\lithuanDictionary.txt", "a");
-	if (fLithuan == NULL){
+	//for lithuan word	
+	fLithuan = fopen("..\\Debug\\data\\lithuanDictionary.txt", "a");//open the files in append mode.
+	if (fLithuan == NULL){ //if file doesn't exit, create
 		freopen("lithuanDictionary.txt", "wb", fLithuan);
 	}
-	//ask to user a word and save on file
-	printf("Insert the word in lithuan: ");
-	scanf("%[\0]s", word->lithuanWord);
-	fprintf(fLithuan, "%s\n", word->lithuanWord);
+	printf("Insert the word in lithuan: "); //ask to user a word and save on file
+	scanf("%[^\t\n\0]s", word->lithuanWord); //save the word in var lithuanWord (located in struct)
+	fprintf(fLithuan, "%s\n", word->lithuanWord); //save on file
+	fclose(fLithuan); //close the file
 
 
-	//open the files in append mode. If file doesn't exist, create it
-	fEnglish = fopen("..\\Debug\\data\\englishDictionary.txt", "a");
-	if (fEnglish == NULL){
+	printf("\n\nstring: '%s'\n", word->lithuanWord);
+}
+
+void insertWordEnglish(struct Word *word){
+	FILE *fEnglish;
+
+	//for english word
+	fEnglish = fopen("..\\Debug\data\\englishDictionary.txt", "a"); //open the files in append mode.
+	if (fEnglish == NULL){ //if file doesn't exit, create
 		freopen("englishDictionary.txt", "wb", fEnglish);
 	}
-	//ask to user a word and save on file
-	printf("Insert the word in english (translated): ");
-	scanf("%[\0]s", word->englishWord);
-	fprintf(fEnglish, "%s\n", word->englishWord);
+	printf("Insert the word in english (translated): "); //ask to user a word and save on file
+	scanf("%[^\t\n\0]s", word->englishWord); //save the word in var lithuanWord (located in struct)
+	fprintf(fEnglish, "%s\n", word->englishWord); //save on file
+	fclose(fEnglish); //close the file
 
 
-	//close the files
-	fclose(fLithuan);
-	fclose(fEnglish);
+	printf("\n\nstring: '%s'\n\n\n", word->englishWord);
 }
 
 
