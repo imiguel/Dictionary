@@ -32,46 +32,54 @@ void insertWordLithuan(struct Word *word){
 	if (fLithuan == NULL){ //if file doesn't exit, create
 		freopen("lithuanDictionary.txt", "wb", fLithuan);
 	}
+
 	printf("Insert the word in lithuan: "); //ask to user a word and save on file
 	scanf("%35[^\t\n\0]s", word->lithuanWord); //save the word in var lithuanWord (located in struct)
-	fprintf(fLithuan, "%s\n", word->lithuanWord); //save on file
+	//fprintf(fLithuan, "%s\n", word->lithuanWord); //save on file
+	fputs(word->lithuanWord, fLithuan);
+	fclose(fLithuan); //close the file
 	
-
 	printf("\n\nstring: '%s'\n", word->lithuanWord);
+
 
 	// ========================== ENGLISH ==========================
 	
+
 	fEnglish = fopen("..\\Debug\\data\\englishDictionary.txt", "a");//open the files in append mode.
 	if (fEnglish == NULL){ //if file doesn't exit, create
 		freopen("englishDictionary.txt", "wb", fEnglish);
 	}
+
 	printf("Insert the word in english (translated): "); //ask to user a word and save on file
-	scanf("%35[^\t\n\0]s", word->englishWord); //save the word in var englishWord (located in struct)
-	fprintf(fEnglish, "%s\n", word->englishWord); //save on file
+	scanf("%s", word->englishWord); //save the word in var englishWord (located in struct)
+	//fprintf(fEnglish, "%s\n", word->englishWord); //save on file
+	fputs(word->englishWord, fEnglish);
+	fclose(fEnglish); //close the file
 
 	printf("\n\nstring: '%s'\n", word->englishWord);
-
-	fclose(fEnglish); //close the file
-	fclose(fLithuan); //close the file
+	
 }
 
-/*void insertWordEnglish(struct Word *word){
-	FILE *fEnglish;
+void teste(struct Word *words){
+	FILE *f1, *f2;
 
-	//for english word	
-	fEnglish = fopen("..\\Debug\\data\\englishDictionary.txt", "a");//open the files in append mode.
-	if (fEnglish == NULL){ //if file doesn't exit, create
-		freopen("englishDictionary.txt", "wb", fEnglish);
+	f1 = fopen("..\\Debug\\data\\f1File.txt", "a");
+	if (f1 == NULL){
+		freopen("f1File.txt", "wb", f1);
 	}
-	printf("Insert the word in english (translated): "); //ask to user a word and save on file
-	scanf("%35[^\t\n\0]s", word->englishWord); //save the word in var englishWord (located in struct)
-	fprintf(fEnglish, "%s\n", word->englishWord); //save on file
-	fclose(fEnglish); //close the file
+	printf("insert F1: ");
+	scanf("%35[^\t\n\0]s", words->englishWord);
+	fclose(f1);
 
-
-	printf("\n\nstring: '%s'\n", word->englishWord);
-}*/
-
+	////////////////////////////////////////////
+	f2 = fopen("..\\Debug\\data\\f2File.txt", "a");
+	if (f2 == NULL){
+		freopen("f1File.txt", "wb", f2);
+	}
+	printf("Insert F2: ");
+	scanf("%s", words->lithuanWord);
+	fclose(f2);
+}
 
 
 
@@ -83,7 +91,6 @@ int main(int argc, char* argv[])
 
 	insertWordLithuan(&words);
 	system("PAUSE");
-	//insertWordEnglish(&words);
 	
 
 	system("PAUSE");
