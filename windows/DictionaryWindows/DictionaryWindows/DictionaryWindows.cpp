@@ -32,7 +32,7 @@ void insertWordLithuan(struct Word *word){
 		freopen("lithuanDictionary.txt", "wb", fLithuan);
 	}
 	printf("Insert the word in lithuan: "); //ask to user a word and save on file
-	scanf("%[^\t\n\0]s", word->lithuanWord); //save the word in var lithuanWord (located in struct)
+	scanf("%35[^\t\n\0]s", word->lithuanWord); //save the word in var lithuanWord (located in struct)
 	fprintf(fLithuan, "%s\n", word->lithuanWord); //save on file
 	fclose(fLithuan); //close the file
 
@@ -43,8 +43,8 @@ void insertWordLithuan(struct Word *word){
 void insertWordEnglish(struct Word *word){
 	FILE *fEnglish;
 
-	//for english word
-	fEnglish = fopen("..\\Debug\data\\englishDictionary.txt", "a"); //open the files in append mode.
+	//for english word	
+	fEnglish = fopen("..\\Debug\\data\\englishDictionary.txt", "a");//open the files in append mode.
 	if (fEnglish == NULL){ //if file doesn't exit, create
 		freopen("englishDictionary.txt", "wb", fEnglish);
 	}
@@ -54,18 +54,21 @@ void insertWordEnglish(struct Word *word){
 	fclose(fEnglish); //close the file
 
 
-	printf("\n\nstring: '%s'\n\n\n", word->englishWord);
+	printf("\n\nstring: '%s'\n", word->englishWord);
 }
 
 
-/* Main - Execute the program*/
+
+
 int main(int argc, char* argv[])
 {
 	int option; //number of the option in main menu
 	struct Word words;
 	setlocale(LC_ALL, "Portuguese");
 
-	insertWord(&words);
+	insertWordLithuan(&words);
+	system("PAUSE");
+	insertWordEnglish(&words);
 	
 
 	system("PAUSE");
