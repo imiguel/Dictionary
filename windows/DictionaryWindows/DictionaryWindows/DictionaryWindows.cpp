@@ -10,6 +10,7 @@
 
 //Constant
 #define MAX_WORD_SIZE 35 //define max char size for each word (in lithuan and english)
+#define BUFFER_SIZE 100
 
 /*
 Structs zone
@@ -23,9 +24,10 @@ struct Word{
 /*
 Functions zone
 */
-void insertWordLithuan(struct Word *word){
+void insertWords(struct Word *word){
 	FILE *fLithuan;
 	FILE *fEnglish;
+	int   ch;
 
 	//for lithuan word	
 	fLithuan = fopen("..\\Debug\\data\\lithuanDictionary.txt", "a");//open the files in append mode.
@@ -34,16 +36,15 @@ void insertWordLithuan(struct Word *word){
 	}
 
 	printf("Insert the word in lithuan: "); //ask to user a word and save on file
-	scanf("%35[^\t\n\0]s", word->lithuanWord); //save the word in var lithuanWord (located in struct)
-	//fprintf(fLithuan, "%s\n", word->lithuanWord); //save on file
-	fputs(word->lithuanWord, fLithuan);
-	fclose(fLithuan); //close the file
+	scanf("%35[^\n]s", &word->lithuanWord); //save the word in var lithuanWord (located in struct)
+	fprintf(fLithuan, "%s\n", word->lithuanWord); //save on file
 	
-	printf("\n\nstring: '%s'\n", word->lithuanWord);
+	//flush the input;
+	while ((ch = getchar()) != '\n' && ch != EOF);
 
+	fclose(fLithuan); //close the file
 
 	// ========================== ENGLISH ==========================
-	
 
 	fEnglish = fopen("..\\Debug\\data\\englishDictionary.txt", "a");//open the files in append mode.
 	if (fEnglish == NULL){ //if file doesn't exit, create
@@ -51,47 +52,61 @@ void insertWordLithuan(struct Word *word){
 	}
 
 	printf("Insert the word in english (translated): "); //ask to user a word and save on file
-	scanf("%s", word->englishWord); //save the word in var englishWord (located in struct)
-	//fprintf(fEnglish, "%s\n", word->englishWord); //save on file
-	fputs(word->englishWord, fEnglish);
-	fclose(fEnglish); //close the file
-
-	printf("\n\nstring: '%s'\n", word->englishWord);
+	scanf("%35[^\n]s", &word->englishWord); //save the word in var englishWord (located in struct)
+	fprintf(fEnglish, "%s\n", word->englishWord); //save on file
 	
+	//flush the input;
+	while ((ch = getchar()) != '\n' && ch != EOF);
+
+	fclose(fEnglish); //close the file
 }
 
-void teste(struct Word *words){
-	FILE *f1, *f2;
 
-	f1 = fopen("..\\Debug\\data\\f1File.txt", "a");
-	if (f1 == NULL){
-		freopen("f1File.txt", "wb", f1);
-	}
-	printf("insert F1: ");
-	scanf("%35[^\t\n\0]s", words->englishWord);
-	fclose(f1);
-
-	////////////////////////////////////////////
-	f2 = fopen("..\\Debug\\data\\f2File.txt", "a");
-	if (f2 == NULL){
-		freopen("f1File.txt", "wb", f2);
-	}
-	printf("Insert F2: ");
-	scanf("%s", words->lithuanWord);
-	fclose(f2);
+/*
+	Graphics zone
+*/
+void mainMenu(){
+	printf("\n");
+	printf("\n##########################################");
+	printf("\n##     Dictionary Lithuan - English     ##");
+	printf("\n##                                      ##");
+	printf("\n##   Main menu                          ##");
+	printf("\n##    1. Insert words                   ##");
+	printf("\n##    2. Search words                   ##");
+	printf("\n##    3. Remove words                   ##");
+	printf("\n##                                      ##");
+	printf("\n##    0. Exit                           ##");
+	printf("\n##########################################");
 }
 
+void graphicInsertWords(){
+	printf("\n##########################################");
+	printf("\n##            INSERT WORD               ##");
+	printf("\n##########################################\n\n");
+}
 
 
 int main(int argc, char* argv[])
 {
-	int option; //number of the option in main menu
+	int ch, option; //number of the option in main menu
 	struct Word words;
 	setlocale(LC_ALL, "Portuguese");
 
-	insertWordLithuan(&words);
-	system("PAUSE");
-	
+	//
+	do{
+		mainMenu();
+		printf("\nInsert the option: ");
+		scanf("%d", &option);
+
+		if (option == 1){
+			while ((ch = getchar()) != '\n' && ch != EOF);
+			system("CLS");
+			graphicInsertWords()
+			insertWords(&words);
+			break;
+		}
+
+	} while (option == 0);
 
 	system("PAUSE");
 	return 0;
