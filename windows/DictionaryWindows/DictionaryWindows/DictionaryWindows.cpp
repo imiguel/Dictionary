@@ -10,7 +10,6 @@
 
 //Constant
 #define MAX_WORD_SIZE 35 //define max char size for each word (in lithuan and english)
-#define BUFFER_SIZE 100
 
 /*
 Structs zone
@@ -29,20 +28,21 @@ void insertWords(struct Word *word){
 	FILE *fEnglish;
 	int   ch;
 
+	printf("Insert the word in lithuan: "); //ask to user a word and save on file
+	scanf("%35[^\n]s", &word->lithuanWord); //save the word in var lithuanWord (located in struct)
+
 	//for lithuan word	
 	fLithuan = fopen("..\\Debug\\data\\lithuanDictionary.txt", "a");//open the files in append mode.
 	if (fLithuan == NULL){ //if file doesn't exit, create
 		freopen("lithuanDictionary.txt", "wb", fLithuan);
 	}
 
-	printf("Insert the word in lithuan: "); //ask to user a word and save on file
-	scanf("%35[^\n]s", &word->lithuanWord); //save the word in var lithuanWord (located in struct)
 	fprintf(fLithuan, "%s\n", word->lithuanWord); //save on file
 	
-	//flush the input;
-	while ((ch = getchar()) != '\n' && ch != EOF);
+	while ((ch = getchar()) != '\n' && ch != EOF);//flush the input
 
 	fclose(fLithuan); //close the file
+
 
 	// ========================== ENGLISH ==========================
 
@@ -55,12 +55,11 @@ void insertWords(struct Word *word){
 	scanf("%35[^\n]s", &word->englishWord); //save the word in var englishWord (located in struct)
 	fprintf(fEnglish, "%s\n", word->englishWord); //save on file
 	
-	//flush the input;
-	while ((ch = getchar()) != '\n' && ch != EOF);
+	while ((ch = getchar()) != '\n' && ch != EOF); //flush the input
 
 	fclose(fEnglish); //close the file
 
-	printf("\nWords inserted correctly.\n");
+	printf("\nWords inserted correctly.\n\n");
 	system("PAUSE");
 }
 
@@ -167,33 +166,44 @@ void sizeList(struct Word words[]){
 void mainMenu(){
 	printf("\n");
 	printf("\n##########################################");
-	printf("\n##     Dictionary Lithuan - English     ##");
+	printf("\n##   Dictionary Lithuanian - English    ##");
+	printf("\n##                                      ##");
 	printf("\n##                                      ##");
 	printf("\n##   Main menu                          ##");
-	printf("\n##    1. Insert words V                 ##");
-	printf("\n##    2. Search words V                 ##");
-	printf("\n##    3. Remove words X                 ##");
-	printf("\n##    4. Size list    V                 ##");
+	printf("\n##    1. Insert words   V               ##");
+	printf("\n##    2. Search words   V               ##");
+	printf("\n##    3. Remove words   X               ##");
+	printf("\n##    4. Size list      V               ##");
 	printf("\n##                                      ##");
 	printf("\n##    0. Exit                           ##");
+	printf("\n##                                      ##");
 	printf("\n##########################################");
 }
 
 void graphicInsertWords(){
 	printf("\n##########################################");
+	printf("\n##   Dictionary Lithuanian - English    ##");
+	printf("\n##                                      ##");
 	printf("\n##            INSERT WORD               ##");
+	printf("\n##                                      ##");
 	printf("\n##########################################\n\n");
 }
 
 void graphicSearchWords(){
 	printf("\n##########################################");
+	printf("\n##   Dictionary Lithuanian - English    ##");
+	printf("\n##                                      ##");
 	printf("\n##            SEARCH WORD               ##");
+	printf("\n##                                      ##");
 	printf("\n##########################################\n\n");
 }
 
 void graphicSizeList(){
 	printf("\n##########################################");
+	printf("\n##   Dictionary Lithuanian - English    ##");
+	printf("\n##                                      ##");
 	printf("\n##             SIZE LIST                ##");
+	printf("\n##                                      ##");
 	printf("\n##########################################\n\n");
 }
 
@@ -201,7 +211,7 @@ void lastScreen(){
 	system("CLS");
 	printf("\n");
 	printf("\n##########################################");
-	printf("\n##     Dictionary Lithuan - English     ##");
+	printf("\n##   Dictionary Lithuanian - English    ##");
 	printf("\n##                                      ##");
 	printf("\n##   Develop By: Ana Pontes             ##");
 	printf("\n##   NOME_UNIVERSIDADE                  ##");
@@ -215,15 +225,15 @@ void lastScreen(){
 int main(int argc, char* argv[])
 {
 	int ch, option; //number of the option in main menu
-	struct Word words;
-	setlocale(LC_ALL, "Portuguese");
+	struct Word words; 
+	setlocale(LC_ALL, "Lithuanian");
 
 
 	//
 	backToMenu:do{ //create a loop into menus. Só sai do loop quando se digita 0 (zero)
 		system("CLS");
 		mainMenu();
-		printf("\nInsert the option: ");
+		printf("\n\nInsert the option: ");
 		scanf("%d", &option);
 
 		switch (option){
@@ -248,7 +258,7 @@ int main(int argc, char* argv[])
 				system("CLS"); //clear the screen
 				graphicSizeList(); //show the "graphics"
 				while ((ch = getchar()) != '\n' && ch != EOF); //clear de memory buffer
-				sizeList(&words); //call the function to search words
+				sizeList(&words); //call the function to count how many records have the file
 				goto backToMenu; //back to main menu
 				break;
 			default:
@@ -265,4 +275,3 @@ int main(int argc, char* argv[])
 	system("PAUSE");
 	return 0;
 }
-
