@@ -27,40 +27,49 @@ void insertWords(struct Word *word){
 	FILE *fLithuan;
 	FILE *fEnglish;
 	int   ch;
+	char aux[MAX_WORD_SIZE];
 
 	printf("Insert the word in lithuan: "); //ask to user a word and save on file
 	scanf("%35[^\n]s", &word->lithuanWord); //save the word in var lithuanWord (located in struct)
 
-	//for lithuan word	
-	fLithuan = fopen("..\\Debug\\data\\lithuanDictionary.txt", "a");//open the files in append mode.
+	strcpy(aux, word->lithuanWord); //copy inserted string to "aux" string
+	_strlwr(aux); //convert the string to lowercase
+
+
+	// ========================== LITHUAN ==========================	
+	fLithuan = fopen("..\\Debug\\data\\lithuanDictionary.txt", "a"); //open the file - append mode.
 	if (fLithuan == NULL){ //if file doesn't exit, create
-		freopen("lithuanDictionary.txt", "wb", fLithuan);
+		freopen("lithuanDictionary.txt", "wb", fLithuan); //reopen the .txt file and create a file for writing
 	}
 
-	fprintf(fLithuan, "%s\n", word->lithuanWord); //save on file
+	fprintf(fLithuan, "%s\n", aux); //word->lithuanWord); //save on file
 	
-	while ((ch = getchar()) != '\n' && ch != EOF);//flush the input
+	while ((ch = getchar()) != '\n' && ch != EOF); //flush the input
 
 	fclose(fLithuan); //close the file
 
 
 	// ========================== ENGLISH ==========================
-
-	fEnglish = fopen("..\\Debug\\data\\englishDictionary.txt", "a");//open the files in append mode.
-	if (fEnglish == NULL){ //if file doesn't exit, create
-		freopen("englishDictionary.txt", "wb", fEnglish);
-	}
-
+	char aux2[MAX_WORD_SIZE];
 	printf("Insert the word in english (translated): "); //ask to user a word and save on file
 	scanf("%35[^\n]s", &word->englishWord); //save the word in var englishWord (located in struct)
-	fprintf(fEnglish, "%s\n", word->englishWord); //save on file
+
+	strcpy(aux2, word->englishWord); //copy inserted string to "aux2" string
+	_strlwr(aux2); //convert the string to lowercase
+
+	fEnglish = fopen("..\\Debug\\data\\englishDictionary.txt", "a"); //open the file - append mode.
+	if (fEnglish == NULL){ //if file doesn't exit, create
+		freopen("englishDictionary.txt", "wb", fEnglish); //reopen the .txt file and create a file for writing
+	}
+
+	fprintf(fEnglish, "%s\n", aux2); //save on file
 	
 	while ((ch = getchar()) != '\n' && ch != EOF); //flush the input
 
 	fclose(fEnglish); //close the file
 
-	printf("\nWords inserted correctly.\n\n");
-	system("PAUSE");
+	printf("\nWords inserted correctly.\n\n"); //show the output
+	system("PAUSE"); //pause the program and wait to user press any key
 }
 
 void findWords(struct Word words[]){
@@ -72,57 +81,60 @@ void findWords(struct Word words[]){
 	int ch;
 	char lithuanWord[MAX_WORD_SIZE];
 	char englishWord[MAX_WORD_SIZE];
+	char aux2[MAX_WORD_SIZE];
 
 
 	printf("Insert the word to search (in lithuan): "); //ask a user for a word in lithuan
 	scanf("%35[^\n]s", searchWord);
+
+	strcpy(aux2, searchWord); //copy inserted string to "aux2" string
+	_strlwr(aux2); //convert the string to lowercase
+
 	while ((ch = getchar()) != '\n' && ch != EOF); //flush the input
 	printf("\n\n");
 
+
 	//============================= LITHUAN =============================
-	fLithuan = fopen("..\\Debug\\data\\lithuanDictionary.txt", "r");
+	fLithuan = fopen("..\\Debug\\data\\lithuanDictionary.txt", "r"); //open the file - read mode
 	char line[MAX_WORD_SIZE];
 
 	for (;;){
-		fgets(line, MAX_WORD_SIZE, fLithuan);
+		fgets(line, MAX_WORD_SIZE, fLithuan); //get de string, position from the lithuan file
 		
-		if( !feof(fLithuan) ){
-			lineNumber++;
+		if( !feof(fLithuan) ){ //if not the end of file
+			lineNumber++; //increment the number of the line
 		}else{
-			break;
+			break; //else, break the cicle and exit from loop
 		}
 
-		sscanf(line, "%s", &lithuanWord);
+		sscanf(line, "%s", &lithuanWord); // "read" the line
 
-		if (strcmp(lithuanWord, searchWord) == 0) {
-			//printf("line number: %d\n", lineNumber); // what line 
-			printf("Lithuan: %s (original)\n", lithuanWord);
-			lineNumber2 = lineNumber;
+		if (strcmp(lithuanWord, searchWord) == 0) { //if the string lithuanWord was equal to searchWord
+			printf("Lithuan: %s (original)\n", lithuanWord); //show the string
+			lineNumber2 = lineNumber; //the lineBumber2
 		}
 	}
-	fclose(fLithuan);
-
+	fclose(fLithuan); //close the file
 
 
 	//============================= ENGLISH =============================
-	fEnglish = fopen("..\\Debug\\data\\englishDictionary.txt", "r");
+	fEnglish = fopen("..\\Debug\\data\\englishDictionary.txt", "r"); //open the file  - read mode
 	char line2[MAX_WORD_SIZE];
 	int aux = 0;
 
 	for (;;){
-		fgets(line2, MAX_WORD_SIZE, fEnglish);
+		fgets(line2, MAX_WORD_SIZE, fEnglish); //get the string, position from english file
 
-		if (!feof(fEnglish)){
-			aux++;
+		if (!feof(fEnglish)){ //if not the end of file
+			aux++; //increment the number of the line
 		}else{
-			break;
+			break; //else, break the cicle and exit from loop
 		}
 
-		sscanf(line2, "%s", &englishWord);
+		sscanf(line2, "%s", &englishWord); //"read" the line
 
-		if ( aux == lineNumber2){
-			//printf("English file line number: %d\n", lineNumber2); // what line
-			printf("English: %s (translated)\n", englishWord);
+		if ( aux == lineNumber2){ //if the number of the line (in english file) was equal to number of line (lithuan file)
+			printf("English: %s (translated)\n", englishWord); //show the english string
 		}
 
 	}
@@ -137,26 +149,30 @@ void sizeList(struct Word words[]){
 	FILE *fLithuan;
 	int numberOfRecords = 0;
 
-	fLithuan = fopen("..\\Debug\\data\\lithuanDictionary.txt", "r");
+	fLithuan = fopen("..\\Debug\\data\\lithuanDictionary.txt", "r"); //open the file - read mode
 	char line[MAX_WORD_SIZE];
 
 	for (;;){
-		fgets(line, MAX_WORD_SIZE, fLithuan);
+		fgets(line, MAX_WORD_SIZE, fLithuan); //get the line from lithuan file
 
-		if (!feof(fLithuan)){
-			numberOfRecords++;
+		if (!feof(fLithuan)){ //if not the end of file
+			numberOfRecords++; //increment the number of line from file
 		}else{
-			break;
+			break; //else, exit the cicle and exit from loop
 		}
 
 		
 	}
 
-	printf("\nNumber of records (words): %d", numberOfRecords);
+	printf("\nNumber of records (words): %d", numberOfRecords); //show the output
 
 	fclose(fLithuan);
 	printf("\n\n\n");
 	system("PAUSE");
+}
+
+void deleteWord(struct Word words[]){
+	//TO DO
 }
 
 
@@ -248,7 +264,7 @@ int main(int argc, char* argv[])
 				system("CLS"); //clear the screen
 				graphicSearchWords(); //show the "graphics"
 				while ((ch = getchar()) != '\n' && ch != EOF); //clear de memory buffer
-				findWords(&words); //call the function to search words
+				findWords(&words); //call the function to find words
 				goto backToMenu; //back to main menu
 				break;
 			case 3:
@@ -270,7 +286,7 @@ int main(int argc, char* argv[])
 			break;
 		}
 
-	} while (true);
+	}while (true);
 
 	system("PAUSE");
 	return 0;
